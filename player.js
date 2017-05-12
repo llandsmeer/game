@@ -4,9 +4,12 @@ class Player {
         this.y = 100;
         this.angle = 0;
         this.lastBullet = 0;
+        this.bulletDelay = 0.1;
+        this.bulletSpeed = 200;
     }
 
     update(gameState) {
+        this.updateAngle(gameState);
         if (gameState.keyboardState.a) {
             this.x -= 100 * gameState.dt;
         }
@@ -19,8 +22,9 @@ class Player {
         if (gameState.keyboardState.s) {
             this.y += 100 * gameState.dt;
         }
-        if (gameState.mouse.left && gameState.time - this.lastBullet > 1) {
-            gameState.bullets.push(new Bullet(this.x, this.y, this.angle));
+        if (gameState.mouse.left &&
+            gameState.time - this.lastBullet > this.bulletDelay) {
+            gameState.bullets.push(new Bullet(this.x, this.y, this.angle, this.bulletSpeed));
             this.lastBullet = gameState.time;
         }
     }
@@ -30,5 +34,11 @@ class Player {
         context.fillStyle = '#FF0000';
         context.fillRect(this.x - 10, this.y - 10, 20, 20);
         context.closePath();
+    }
+
+    updateAngle(gameState) {
+        const dx = gameState.mouse.x - this.x;
+        const dy = gameState.mouse.y - this.y;
+        this.angle = Math.atan2(dy, dx);
     }
 }

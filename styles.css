@@ -8,4 +8,5 @@ html, body {
 
 #mainCanvas {
     background-color: white;
+    cursor: none;
 }

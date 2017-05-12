@@ -102,9 +102,9 @@ function update(gameState) {
 }
 
 function draw(ctx) {
-    gameState.player.draw(ctx);
-    gameState.enemies.forEach(e => e.draw(ctx));
     gameState.bullets.forEach(b => b.draw(ctx));
+    gameState.enemies.forEach(e => e.draw(ctx));
+    gameState.player.draw(ctx);
 }
 
 const clock = new Monotonic();
