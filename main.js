@@ -37,11 +37,8 @@ let gameState = {
     frameNum: 0,
     time: 0,
     isInScreen(x, y, w, h) {
-        return
-            x + w > 0 &&
-            y + w > 0 &&
-            x < this.width &&
-            y < this.height;
+        return (x + w > 0 && y + w > 0 &&
+                x < this.width && y < this.height);
     }
 }
 
@@ -105,7 +102,12 @@ function update(gameState) {
     generateEnemies(gameState)
     gameState.player.update(gameState);
     gameState.enemies.forEach(e => e.update(gameState));
-    gameState.bullets.forEach(b => b.update(gameState));
+    for (let i = gameState.bullets.length - 1; i >= 0; i--) {
+        gameState.bullets[i].update(gameState);
+        if (gameState.bullets[i].shouldDelete) {
+            gameState.bullets.splice(i, 1);
+        }
+    }
 }
 
 function draw(ctx) {
