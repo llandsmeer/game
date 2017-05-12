@@ -42,7 +42,7 @@ document.body.onmousedown = function onmousedown() {
     gameState.mouse.left = true;
 }
 document.body.onmouseup = function onmouseup() {
-    gameState.mous.left = false;
+    gameState.mouse.left = false;
 }
 canvas.onmousemove = function onmousemove(e) {
     const x = e.pageX - this.offsetLeft;
