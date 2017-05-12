@@ -5,7 +5,7 @@ class Player {
         this.angle = 0;
         this.lastBullet = 0;
         this.bulletDelay = 0.1;
-        this.bulletSpeed = 200;
+        this.bulletSpeed = 600;
     }
 
     update(gameState) {
