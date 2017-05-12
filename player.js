@@ -31,6 +31,9 @@ class Player {
 
     draw(context) {
         context.beginPath();
+        context.moveTo(0,0);
+        context.arc(gameState.mouse.x, gameState.mouse.y, 20, 0, 2 * Math.PI);
+        context.stroke();
         context.fillStyle = '#FF0000';
         context.fillRect(this.x - 10, this.y - 10, 20, 20);
         context.closePath();
