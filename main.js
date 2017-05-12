@@ -123,6 +123,7 @@ function loop() {
     gameState.width = canvas.width;
     gameState.height = canvas.height;
     gameState.time = gameState.frameNum * DT;
+    gameState.level = 1 + Math.floor(gameState.time / 10);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
     update(gameState);
