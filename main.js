@@ -22,6 +22,12 @@ class Monotonic {
 
 let gameState = {
     level: 1,
+    mouse: {
+        x: 0,
+        y: 0,
+        left: false,
+        right: false
+    },
     keyboardState: {},
     player: new Player,
     enemies: [],
@@ -32,6 +38,18 @@ let gameState = {
     time: 0,
 }
 
+document.body.onmousedown = function onmousedown() {
+    gameState.mouse.left = true;
+}
+document.body.onmouseup = function onmouseup() {
+    gameState.mous.left = false;
+}
+canvas.onmousemove = function onmousemove(e) {
+    const x = e.pageX - this.offsetLeft;
+    const y = e.pageY - this.offsetTop;
+    gameState.mouse.x = x;
+    gameState.mouse.y = y;
+}
 document.body.onkeydown = function onkeydown(e) {
     gameState.keyboardState[e.key] = true;
 }
