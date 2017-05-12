@@ -20,55 +20,53 @@ class Monotonic {
     }
 }
 
-let frameNum = 0;
-
-let keyboardState = {};
+let gameState = {
+    keyboardState: {},
+    player: new Player,
+    enemies: [],
+    bullets: [],
+    dt: DT,
+    fps: FPS,
+    frameNum: 0,
+    time: 0,
+}
 
 document.body.onkeydown = function onkeydown(e) {
-    keyboardState[e.key] = true;
+    gameState.keyboardState[e.key] = true;
 }
 
 document.body.onkeyup = function onkeyup(e) {
-    keyboardState[e.key] = false;
+    gameState.keyboardState[e.key] = false;
 }
 
-let playerPos = 0;
-let playerSpeed = 0;
-function update() {
-    if (keyboardState.d) {
-        playerSpeed += 5 * DT;
-    } else if (keyboardState.a) {
-        playerSpeed -= 5 * DT;
-    }
-    playerPos += playerSpeed;
+function update(gameState) {
+    gameState.player.update(gameState);
+    gameState.enemies.forEach(e => e.update(gameState));
+    gameState.bullets.forEach(b => b.update(gameState));
 }
 
-function draw() {
-    const width = canvas.width;
-    const height = canvas.height;
-    const angle = playerPos * DT * 2 * Math.PI / 10;
-    const xa = width * (0.5-Math.sin(angle)/2);
-    const ya = height * (0.5+Math.cos(angle)/2);
-    const xb = width * (0.5+Math.sin(angle)/2);
-    const yb = height * (0.5-Math.cos(angle)/2);
-    ctx.moveTo(xa, ya);
-    ctx.lineTo(xb, yb);
-    ctx.stroke();
+function draw(ctx) {
+    gameState.player.draw(ctx);
+    gameState.enemies.forEach(e => e.draw(ctx));
+    gameState.bullets.forEach(b => b.draw(ctx));
 }
 
 const clock = new Monotonic();
 
 function loop() {
     const startTime = clock.time();
+    gameState.width = canvas.width;
+    gameState.height = canvas.height;
+    gameState.time = gameState.frameNum * DT;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
-    update(frameNum);
-    draw(frameNum);
+    update(gameState);
+    draw(ctx);
     ctx.closePath();
-    frameNum += 1;
+    gameState.frameNum += 1;
     const endTime = clock.time();
     const deltaTime = endTime - startTime; // ms
     setTimeout(loop, (1000*DT)-deltaTime)
 }
-
+new Player();
 loop();
