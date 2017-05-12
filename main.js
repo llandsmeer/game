@@ -21,6 +21,7 @@ class Monotonic {
 }
 
 let gameState = {
+    level: 1,
     keyboardState: {},
     player: new Player,
     enemies: [],
@@ -39,7 +40,44 @@ document.body.onkeyup = function onkeyup(e) {
     gameState.keyboardState[e.key] = false;
 }
 
+function spawnEnemy(gameState) {
+    let config = {
+        x: 0,
+        y: 0,
+        speed: 10 + 10*Math.random()
+    };
+    switch (Math.floor(Math.random() * 4)) {
+        case 0:
+            config.x = gameState.width*Math.random();
+            config.y = 0;
+            break;
+        case 1:
+            config.x = gameState.width*Math.random();
+            config.y = gameState.height;
+            break;
+        case 2:
+            config.x = 0;
+            config.y = gameState.height*Math.random();
+            break;
+        case 3:
+            config.x = gameState.width;
+            config.y = gameState.height*Math.random();
+            break;
+    }
+    gameState.enemies.push(new Enemy(config));
+}
+
+function generateEnemies(gameState) {
+    const enemiesPerSecond = gameState.level;
+    const maxEnemies = gameState.level * 10;
+    if (gameState.enemies.length < maxEnemies &&
+        Math.random() < gameState.dt * enemiesPerSecond) {
+        spawnEnemy(gameState);
+    }
+}
+
 function update(gameState) {
+    generateEnemies(gameState)
     gameState.player.update(gameState);
     gameState.enemies.forEach(e => e.update(gameState));
     gameState.bullets.forEach(b => b.update(gameState));
