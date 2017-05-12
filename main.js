@@ -36,6 +36,13 @@ let gameState = {
     fps: FPS,
     frameNum: 0,
     time: 0,
+    isInScreen(x, y, w, h) {
+        return
+            x + w > 0 &&
+            y + w > 0 &&
+            x < this.width &&
+            y < this.height;
+    }
 }
 
 document.body.onmousedown = function onmousedown() {
