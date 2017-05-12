@@ -31,7 +31,14 @@ class Player {
 
     draw(context) {
         context.beginPath();
-        context.moveTo(0,0);
+        context.moveTo(gameState.mouse.x , gameState.mouse.y - 20);
+        context.lineTo(gameState.mouse.x, gameState.mouse.y + 20);
+        context.stroke();
+
+        context.moveTo(gameState.mouse.x - 20, gameState.mouse.y);
+        context.lineTo(gameState.mouse.x + 20, gameState.mouse.y);
+        context.stroke();
+
         context.arc(gameState.mouse.x, gameState.mouse.y, 20, 0, 2 * Math.PI);
         context.stroke();
         context.fillStyle = '#FF0000';
