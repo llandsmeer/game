@@ -23,23 +23,23 @@ class Player {
         }
         if (gameState.mouse.left) {
             this.updateAngleFromMouse(gameState);
-            this.fireBullet();
+            this.fireBullet(gameState);
         } else if (gameState.keyboardState.l) {
             this.angle = 2*Math.Pi * 0/4;
-            this.fireBullet();
+            this.fireBullet(gameState);
         } else if (gameState.keyboardState.j) {
             this.angle = 2*Math.PI * 1/4;
-            this.fireBullet();
+            this.fireBullet(gameState);
         } else if (gameState.keyboardState.h) {
             this.angle = 2*Math.PI * 2/4;
-            this.fireBullet();
+            this.fireBullet(gameState);
         } else if (gameState.keyboardState.k) {
             this.angle = 2*Math.PI * 3/4;
-            this.fireBullet();
+            this.fireBullet(gameState);
         }
     }
 
-    draw(context) {
+    draw(context, gameState) {
         context.beginPath();
         context.moveTo(gameState.mouse.x , gameState.mouse.y - 20);
         context.lineTo(gameState.mouse.x, gameState.mouse.y + 20);
@@ -56,7 +56,7 @@ class Player {
         context.closePath();
     }
 
-    fireBullet() {
+    fireBullet(gameState) {
         if (gameState.time - this.lastBullet > this.bulletDelay) {
             gameState.bullets.push(new Bullet(this.x, this.y, this.angle, this.bulletSpeed));
             this.lastBullet = gameState.time;
