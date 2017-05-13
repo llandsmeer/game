@@ -24,8 +24,20 @@ class Player {
         if (gameState.mouse.left) {
             this.updateAngleFromMouse(gameState);
             this.fireBullet(gameState);
+        } else if (gameState.keyboardState.l && gameState.keyboardState.j) {
+            this.angle = 2*Math.PI * 1/8;
+            this.fireBullet(gameState);
+        } else if (gameState.keyboardState.j && gameState.keyboardState.h) {
+            this.angle = 2*Math.PI * 3/8;
+            this.fireBullet(gameState);
+        } else if (gameState.keyboardState.h && gameState.keyboardState.k) {
+            this.angle = 2*Math.PI * 5/8;
+            this.fireBullet(gameState);
+        } else if (gameState.keyboardState.k && gameState.keyboardState.l) {
+            this.angle = 2*Math.PI * 7/8;
+            this.fireBullet(gameState);
         } else if (gameState.keyboardState.l) {
-            this.angle = 2*Math.Pi * 0/4;
+            this.angle = 2*Math.PI * 0/4;
             this.fireBullet(gameState);
         } else if (gameState.keyboardState.j) {
             this.angle = 2*Math.PI * 1/4;
@@ -58,6 +70,7 @@ class Player {
 
     fireBullet(gameState) {
         if (gameState.time - this.lastBullet > this.bulletDelay) {
+            console.log(this.angle/2/Math.PI);
             gameState.bullets.push(new Bullet(this.x, this.y, this.angle, this.bulletSpeed));
             this.lastBullet = gameState.time;
         }
