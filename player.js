@@ -9,7 +9,6 @@ class Player {
     }
 
     update(gameState) {
-        this.updateAngle(gameState);
         if (gameState.keyboardState.a) {
             this.x -= 100 * gameState.dt;
         }
@@ -22,10 +21,21 @@ class Player {
         if (gameState.keyboardState.s) {
             this.y += 100 * gameState.dt;
         }
-        if (gameState.mouse.left &&
-            gameState.time - this.lastBullet > this.bulletDelay) {
-            gameState.bullets.push(new Bullet(this.x, this.y, this.angle, this.bulletSpeed));
-            this.lastBullet = gameState.time;
+        if (gameState.mouse.left) {
+            this.updateAngleFromMouse(gameState);
+            this.fireBullet();
+        } else if (gameState.keyboardState.l) {
+            this.angle = 2*Math.Pi * 0/4;
+            this.fireBullet();
+        } else if (gameState.keyboardState.j) {
+            this.angle = 2*Math.PI * 1/4;
+            this.fireBullet();
+        } else if (gameState.keyboardState.h) {
+            this.angle = 2*Math.PI * 2/4;
+            this.fireBullet();
+        } else if (gameState.keyboardState.k) {
+            this.angle = 2*Math.PI * 3/4;
+            this.fireBullet();
         }
     }
 
@@ -46,7 +56,14 @@ class Player {
         context.closePath();
     }
 
-    updateAngle(gameState) {
+    fireBullet() {
+        if (gameState.time - this.lastBullet > this.bulletDelay) {
+            gameState.bullets.push(new Bullet(this.x, this.y, this.angle, this.bulletSpeed));
+            this.lastBullet = gameState.time;
+        }
+    }
+
+    updateAngleFromMouse(gameState) {
         const dx = gameState.mouse.x - this.x;
         const dy = gameState.mouse.y - this.y;
         this.angle = Math.atan2(dy, dx);
